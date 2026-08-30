@@ -1,0 +1,63 @@
+@format tqs 1.0
+
+!#
+  Northwind rule canon — the derived half of the standard QQL test corpus.
+
+  These three rules are not a demo. They are chosen so that the rule closure
+  can DETECT AN ORDERING BUG, which a set of independent rules cannot: each
+  reads what the one before it derived, so a closure computed in the wrong
+  order is a different closure, not merely a slower one.
+
+    LineRevenue        computes from base facts only
+    StrandedLine       reads LineRevenue's output (positive chain)
+    CleanCatalogEntry  negates StrandedLine's output
+
+  That is TWO strata, not three: positive chaining converges by fixpoint
+  WITHIN a stratum, so LineRevenue and StrandedLine share one. Only the
+  negation forces a stratum boundary, because FILTER NOT EXISTS over a derived
+  predicate cannot be evaluated until that predicate is complete.
+
+  CleanCatalogEntry is the load-bearing one. FILTER NOT EXISTS over a DERIVED
+  predicate is sound only if that predicate is fully materialized first, so it
+  is the case that actually tests the stratification claim instead of assuming
+  it. Run it before StrandedLine finishes and 8 discontinued products are
+  wrongly declared clean — a wrong answer that looks entirely well-formed.
+
+  Expected yield on the unmodified corpus, asserted by the determinism gate:
+    :lineRevenue        2155   (one per order-detail line)
+    :hasStrandedLine     228   (lines on the 8 discontinued products)
+    :cleanCatalogEntry    69   (77 products minus those 8)
+
+  A negation must not be vacuous or it proves nothing: every product appears
+  on an order detail and every order carries lines, so "never sold" and
+  "order with no lines" both derive zero. `:discontinued` splits 8/69, which
+  is why the chain routes through it.
+#!
+
+@rules "NorthwindCanon" {
+
+    # Revenue is not stored. It is business semantics — specifically the
+    # decision that revenue is net of discount — and belongs in a rule rather
+    # than being re-derived in every query that asks for it.
+    "LineRevenue" :
+    WHEN  ?d :unitPrice ?up .
+          ?d :quantity ?qt .
+          ?d :discount ?dc .
+          BIND(?up * ?qt * (1 - ?dc) AS ?rev)
+    THEN  ?d :lineRevenue ?rev .
+
+    # Positive chaining: reads :lineRevenue, which no base fact carries.
+    # Exercises the within-stratum fixpoint — if rule evaluation did not
+    # iterate, this derives nothing on the pass where LineRevenue first fires.
+    "StrandedLine" :
+    WHEN  ?d :lineRevenue ?rev .
+          ?d :hasProduct ?p .
+          ?p :discontinued true .
+    THEN  ?p :hasStrandedLine ?d .
+
+    # Stratified negation over a derived predicate.
+    "CleanCatalogEntry" :
+    WHEN  ?p rdf:type :Product .
+          FILTER NOT EXISTS { ?p :hasStrandedLine ?line }
+    THEN  ?p :cleanCatalogEntry true .
+}

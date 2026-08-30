@@ -1,0 +1,231 @@
+@format tqs 1.0
+!#
+  QROS conversion notes — source content below could not be fully
+  represented and is recorded here rather than silently dropped:
+
+  - blank nodes: 2 detected — 0 owl:unionOf class expression(s) resolved to 0 named :domain/:range statement(s); 2 unresolved
+  - unhandled blank-node shape (no owl:unionOf) on predicate ':equivalentClass': a owl:Class ; owl:intersectionOf ( [ a owl:Restriction ; owl:onProperty :hasCustomer ; owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass :Customer ] [ a owl:Restriction ; owl:onProperty :hasOrderDetail ; owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass :OrderDetail ] [ a owl:Restriction ; owl:onProperty :hasShipper ; owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass :Shipper ] )
+  - unhandled blank-node shape (no owl:unionOf) on predicate ':equivalentClass': a owl:Class ; owl:intersectionOf ( [ a owl:Restriction ; owl:onProperty :hasProduct ; owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ; owl:onClass :Product ] [ a owl:Restriction ; owl:onProperty :quantity ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] )
+  - blank node without subject/predicate: [ a owl:Restriction ; owl:onProperty :managesEmployee ; owl:someValuesFrom owl:Thing ] rdfs:subClassOf :Manager
+  - blank node without subject/predicate: [ a owl:Restriction ; owl:onProperty [ owl:inverseOf :reportsTo ] ; owl:someValuesFrom owl:Thing ] rdfs:subClassOf :Manager
+#!
+
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+@layer ontology {
+    :Category :type :Class ;
+        :label "Category" ;
+        :comment "A group to which products belong, such as Beverages or Condiments." ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :Company :type :Class ;
+        :label "Company" ;
+        :subClassOf :Organization ;
+        :comment "A business that offers products and or services for compensation. Distinguished from a military unit." ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :Customer :type :Class ;
+        :label "Customer" ;
+        :subClassOf :Person ;
+        :subClassOf :Organization ;
+        :comment "A person or organization who places orders and receives goods or services. May be a person or an organization." ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :Employee :type :Class ;
+        :label "Employee" ;
+        :subClassOf :Person ;
+        :comment "An individual who works at Northwind and may handle orders or perform other functions." ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :Manager :type :Class ;
+        :label "Manager" ;
+        :comment "An employee to whom other employees report and receive direction from." ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :Order :type :Class ;
+        :label "Order" ;
+        :comment "A purchase request made by a customer, containing one or more order details." ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :OrderDetail :type :Class ;
+        :label "Order Detail" ;
+        :comment "A line item within an order specifying quantity, product, and discount." ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :Organization :type :Class ;
+        :label "Organization" ;
+        :comment "A group of people legally organized to perform some collective function. This is a higher abstraction encompassing formal, informal, corporate, non-profit and other collectives. The legal qualifier distinguishes an organization from a group." ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :Person :type :Class ;
+        :label "Person" ;
+        :comment "A human individual." ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :Product :type :Class ;
+        :label "Product" ;
+        :comment "A tangible item offered in the catalog, typically associated with a category and supplier." ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :Region :type :Class ;
+        :label "Region" ;
+        :comment "A larger geographical area that contains multiple territories." ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :Shipper :type :Class ;
+        :label "Shipper" ;
+        :subClassOf :Company ;
+        :comment "A company responsible for delivering an order to the customer." ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :Supplier :type :Class ;
+        :label "Supplier" ;
+        :subClassOf :Company ;
+        :comment "A company or entity that provides products to Northwind." ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :Territory :type :Class ;
+        :label "Territory" ;
+        :comment "A sales region to which employees may be assigned." ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :belongsToOrder :type :ObjectProperty ;
+        :label "belongs to Order" ;
+        :comment "Connects an OrderDetail back to the parent Order." ;
+        :domain :OrderDetail ;
+        :range :Order ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :discontinued :type :DatatypeProperty ;
+        :label "Discontinued" ;
+        :comment "Indicates whether the product is still sold." ;
+        :domain :Product ;
+        :range xsd:boolean ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :discount :type :DatatypeProperty ;
+        :label "Discount" ;
+        :comment "Discount applied to the line item (e.g., 0.10 for 10%)." ;
+        :domain :OrderDetail ;
+        :range xsd:decimal ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :freight :type :DatatypeProperty ;
+        :label "Freight" ;
+        :comment "Shipping cost charged to the customer." ;
+        :domain :Order ;
+        :range xsd:decimal ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :hasCategory :type :ObjectProperty ;
+        :label "has Category" ;
+        :comment "Links a Product to its Category." ;
+        :domain :Product ;
+        :range :Category ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :hasCustomer :type :ObjectProperty ;
+        :label "has Customer" ;
+        :comment "Associates an Order with a Customer." ;
+        :domain :Order ;
+        :range :Customer ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :hasEmployee :type :ObjectProperty ;
+        :label "has Employee" ;
+        :comment "Associates an Order with the Employee who processed it." ;
+        :domain :Order ;
+        :range :Employee ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :hasOrderDetail :type :ObjectProperty ;
+        :label "has Order Detail" ;
+        :comment "Links an Order to its line items." ;
+        :domain :Order ;
+        :range :OrderDetail ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :hasProduct :type :ObjectProperty ;
+        :label "has Product" ;
+        :comment "Indicates which product is referenced in an OrderDetail." ;
+        :domain :OrderDetail ;
+        :range :Product ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :hasRegion :type :ObjectProperty ;
+        :label "has Region" ;
+        :comment "Indicates the Region that contains the Territory." ;
+        :domain :Territory ;
+        :range :Region ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :hasShipper :type :ObjectProperty ;
+        :label "has Shipper" ;
+        :comment "Links an Order to the Shipper responsible for delivery." ;
+        :domain :Order ;
+        :range :Shipper ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :hasSupplier :type :ObjectProperty ;
+        :label "has Supplier" ;
+        :comment "Links a Product to its Supplier." ;
+        :domain :Product ;
+        :range :Supplier ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :hasTerritory :type :ObjectProperty ;
+        :label "has Territory" ;
+        :comment "Assigns a Territory to an Employee." ;
+        :domain :Employee ;
+        :range :Territory ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :managesEmployee :type :ObjectProperty ;
+        :label "manages employee" ;
+        :comment "Defines managerial hierarchy among Employees." ;
+        :inverseOf :reportsTo ;
+        :range :Employee ;
+        :domain :Manager ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :orderDate :type :DatatypeProperty ;
+        :label "Order Date" ;
+        :comment "The date when the order was placed." ;
+        :domain :Order ;
+        :range xsd:dateTime ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :productName :type :DatatypeProperty ;
+        :label "Product Name" ;
+        :comment "The name of the product." ;
+        :domain :Product ;
+        :range xsd:string ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :quantity :type :DatatypeProperty ;
+        :label "Quantity" ;
+        :comment "Quantity of product in this line item." ;
+        :domain :OrderDetail ;
+        :range xsd:integer ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :quantityPerUnit :type :DatatypeProperty ;
+        :label "Quantity per Unit" ;
+        :comment "The number of units per package (e.g., 24 bottles)." ;
+        :domain :Product ;
+        :range xsd:integer ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :reorderLevel :type :DatatypeProperty ;
+        :label "Reorder Level" ;
+        :comment "Minimum units before reorder is triggered." ;
+        :domain :Product ;
+        :range xsd:integer ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :reportsTo :type :ObjectProperty ;
+        :label "reports to" ;
+        :comment "Defines managerial hierarchy among Employees." ;
+        :domain :Employee ;
+        :inverseOf :managesEmployee ;
+        :range :Manager ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :requiredDate :type :DatatypeProperty ;
+        :label "Required Date" ;
+        :comment "The date the customer requires delivery." ;
+        :domain :Order ;
+        :range xsd:dateTime ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :shippedDate :type :DatatypeProperty ;
+        :label "Shipped Date" ;
+        :comment "The actual shipping date." ;
+        :domain :Order ;
+        :range xsd:dateTime ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :unitPrice :type :DatatypeProperty ;
+        :label "Unit Price" ;
+        :comment "Price per unit of the product." ;
+        :domain :Product ;
+        :range xsd:decimal ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :unitsInStock :type :DatatypeProperty ;
+        :label "Units in Stock" ;
+        :comment "Current inventory count." ;
+        :domain :Product ;
+        :range xsd:integer ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+    :unitsOnOrder :type :DatatypeProperty ;
+        :label "Units on Order" ;
+        :comment "Quantity ordered but not yet received." ;
+        :domain :Product ;
+        :range xsd:integer ;
+        @importedAt=2026-06-07 @source=northwind-ontology-enhanced.ttl .
+}
+

@@ -75,9 +75,8 @@ and persistent storage — stamped from Terraform/OpenTofu. **There is no shared
 customers.** Customer-instance deploys happen inside an agreed maintenance window; the
 demonstration instance is exempt.
 
-Deployment, provisioning, and maintenance procedures live in
-[`Documentation/deployment/`](Documentation/deployment/); the cloud architecture is specified in
-[Chapter 9 of the design manual](Documentation/design/manual/09_CLOUD.md).
+Operating an instance — sizing, maintenance windows, backups and upgrades — is described in
+the [Cloud Operations guide](Documentation/public/administrators/OPERATIONS_CLOUD.md).
 
 ## Documentation
 

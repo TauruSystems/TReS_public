@@ -1,0 +1,68 @@
+@format tqd 1.0
+
+!#
+  Northwind contextual layer — the statement-level context QROS exists for.
+
+  The base Northwind data is a relational export: every fact is flat and
+  unqualified, and the only tags on it are import provenance (@source,
+  @importedAt). That is enough to make tag SYNTAX run, and not enough to
+  demonstrate anything — a corpus whose tags only say "which file this row
+  came from" cannot show why per-statement context matters.
+
+  This layer adds two things the base data cannot express, using predicates of
+  its own so the base corpus counts are untouched (the rule canon's 2155 / 228
+  / 69 and the README's 77 products / 830 orders all range over `:unitPrice`,
+  `:quantity`, `:discount`, `:hasProduct` and `:discontinued`, none of which
+  appear here):
+
+  1. A PRICE HISTORY on `:listPrice`, bounded with @validFrom / @validUntil.
+     `AS OF` now DISCRIMINATES: the same query at two dates returns two
+     different prices. Against the base data `AS OF` runs and can only ever
+     return everything, which proves nothing.
+
+  2. DISAGREEING STOCK READINGS on `:stockReading` — the same subject and
+     predicate, different values, told apart only by their tags (@source,
+     @confidence, @authority, @measuredAt). This is Law 1: a statement's
+     identity includes its context, so these are distinct facts rather than a
+     contradiction to be resolved on ingest. It gives tag filters something
+     that CHANGES THE ANSWER: filter to the audited reading and you get one
+     number, filter to the supplier's and you get another.
+
+  Everything here is invented for the corpus and says so. Northwind has no
+  real price history; inventing one is legitimate for a test corpus, and
+  pretending it is authentic would not be.
+#!
+
+@layer instance {
+
+    # ---- Price history: three products, each with a superseded and a current
+    # price. The superseded rows carry @validUntil, the current rows do not,
+    # which is what makes an as-of query at an earlier date return a different
+    # answer than one at today's date.
+
+    :product-38 :listPrice "210.00" @validFrom=1996-01-01 @validUntil=1996-12-31 @source=price-list-1996 @authority=finance .
+    :product-38 :listPrice "263.50" @validFrom=1997-01-01 @source=price-list-1997 @authority=finance .
+
+    :product-29 :listPrice "99.00"  @validFrom=1996-01-01 @validUntil=1996-12-31 @source=price-list-1996 @authority=finance .
+    :product-29 :listPrice "123.79" @validFrom=1997-01-01 @source=price-list-1997 @authority=finance .
+
+    :product-59 :listPrice "50.00"  @validFrom=1996-01-01 @validUntil=1996-12-31 @source=price-list-1996 @authority=finance .
+    :product-59 :listPrice "55.00"  @validFrom=1997-01-01 @source=price-list-1997 @authority=finance .
+
+    # ---- Disagreeing stock readings. Same subject, same predicate, different
+    # values — distinguished ONLY by their tags. An audit and a supplier feed
+    # disagree about the same shelf, and both statements are true within their
+    # own context.
+
+    :product-38 :stockReading "17" @source=warehouse-audit  @confidence=0.98 @authority=operations @measuredAt=1997-05-01 .
+    :product-38 :stockReading "22" @source=supplier-feed    @confidence=0.60 @authority=supplier   @measuredAt=1997-05-01 .
+
+    :product-29 :stockReading "0"  @source=warehouse-audit  @confidence=0.98 @authority=operations @measuredAt=1997-05-01 .
+    :product-29 :stockReading "4"  @source=supplier-feed    @confidence=0.55 @authority=supplier   @measuredAt=1997-05-01 .
+
+    :product-59 :stockReading "31" @source=warehouse-audit  @confidence=0.95 @authority=operations @measuredAt=1997-05-01 .
+
+    # A reading with no confidence at all — so @confidence NOT_EXISTS matches
+    # something, rather than being a filter that can never fire.
+    :product-60 :stockReading "12" @source=floor-count @authority=operations @measuredAt=1997-05-02 .
+}
