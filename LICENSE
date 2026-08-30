@@ -1,0 +1,99 @@
+TAURU SYSTEMS PROPRIETARY SOFTWARE LICENSE
+
+Copyright (c) 2025-2026 Tauru Systems LLC, a Delaware limited liability company.
+All rights reserved.
+
+This software is proprietary and confidential. It is NOT open-source software.
+Any prior release of earlier versions under a different license (e.g., MIT or
+Apache-2.0) applies only to those earlier versions as previously distributed and
+does not grant any rights in this or any later version.
+
+1. DEFINITIONS
+   "Software" means the TReS and QROS source code, object code, documentation,
+   configuration, data, and any related materials in this repository, together
+   with all modifications, derivatives, and versions thereof.
+   "Company" means Tauru Systems LLC.
+   "Authorized User" means an individual or entity to whom the Company has granted
+   written access to the Software (for example, an employee or contractor) for the
+   Purpose.
+   "Purpose" means performing work on the Software directly for, and at the
+   direction of, the Company under a separate written agreement with the Company.
+
+2. OWNERSHIP; RESERVATION OF RIGHTS
+   The Software is the confidential and proprietary property of the Company and is
+   protected by copyright, trade-secret, and other laws. The Company reserves all
+   rights not expressly granted in this License. Access to the Software transfers
+   no title or ownership. This is a license, not a sale.
+
+3. LIMITED PERMISSION
+   Subject to continuous compliance with this License and with the Authorized
+   User's written agreement with the Company, the Company grants each Authorized
+   User a personal, non-exclusive, non-transferable, non-sublicensable, revocable
+   permission to access, clone, view, and modify the Software SOLELY to the extent
+   necessary to perform the Purpose. All modifications, contributions, and work
+   product relating to the Software are works made for hire for, and/or are
+   assigned to, the Company and are owned exclusively by the Company.
+
+4. RESTRICTIONS
+   Except as strictly required to perform the Purpose, no person may, and each
+   Authorized User shall not:
+   (a) copy, reproduce, clone, download, or store the Software, in whole or in
+       part, on any device or account not authorized by the Company for the
+       Purpose;
+   (b) use the Software for any purpose other than the Purpose, including any
+       personal, academic, or third-party use;
+   (c) distribute, publish, disclose, sublicense, sell, lease, or otherwise make
+       the Software available to any third party;
+   (d) create, or assist any person in creating, any product or service that
+       competes with the Company using the Software or knowledge derived from it;
+   (e) reverse engineer, decompile, or disassemble any object code, except to the
+       limited extent this restriction is prohibited by applicable law;
+   (f) remove, alter, or obscure any proprietary, copyright, or confidentiality
+       notice; or
+   (g) retain any copy of the Software after access is revoked or the engagement
+       ends (see Section 6).
+
+5. CONFIDENTIALITY
+   The Software is the Company's confidential information and trade secret. Each
+   Authorized User shall hold it in strict confidence, use it only for the Purpose,
+   and protect it using at least the same degree of care used to protect their own
+   confidential information, and in no event less than reasonable care.
+
+6. TERMINATION; RETURN AND DELETION
+   Permission terminates automatically upon any breach of this License, upon
+   revocation by the Company, or upon the end of the Authorized User's engagement
+   with the Company, whichever occurs first. Upon termination, the Authorized User
+   shall immediately cease all use of the Software and permanently delete or
+   destroy all copies in their possession or control (including local clones,
+   branches, forks, backups, and copies stored in any cloud or third-party
+   service) and, upon request, certify such deletion in writing.
+
+7. NO OPEN-SOURCE OR PUBLIC GRANT
+   Nothing in this License grants any open-source, public, redistribution, or
+   patent license. The Software is made available only to Authorized Users for the
+   Purpose.
+
+8. NO WARRANTY
+   THE SOFTWARE IS PROVIDED "AS IS," WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING WITHOUT LIMITATION THE WARRANTIES OF MERCHANTABILITY, FITNESS
+   FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
+
+9. LIMITATION OF LIABILITY
+   TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE COMPANY SHALL NOT BE LIABLE FOR ANY
+   INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES ARISING OUT OF
+   OR RELATED TO THE SOFTWARE OR THIS LICENSE.
+
+10. GOVERNING LAW
+   This License is governed by the laws of the State of Delaware, without regard to
+   its conflict-of-laws principles. The state and federal courts located in
+   Delaware shall have exclusive jurisdiction and venue over any dispute arising
+   out of or relating to this License.
+
+11. RELATIONSHIP TO WRITTEN AGREEMENT
+   This License supplements, and does not replace, an Authorized User's separate
+   written agreement with the Company. In the event of any conflict between this
+   License and such written agreement, the written agreement controls with respect
+   to the Authorized User. Nothing in this License limits any additional
+   obligations or protections set out in that agreement.
+
+For licensing inquiries, contact: info@taurusystems.com
